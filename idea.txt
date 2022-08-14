@@ -1,0 +1,7 @@
+# how to multi-processing
+1. Add all images full path to a list
+2. Split the list into parts according to the pre-defined process number
+3. Do the hashing in parallel by different worker
+4. Merge the result hash_dict together
+5. [images_list] comparing against completed hash_dict in parallel
+
