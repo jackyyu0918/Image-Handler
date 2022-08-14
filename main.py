@@ -55,18 +55,28 @@ def logger_init():
     if not os.path.exists(log_folder):
         os.makedirs(log_folder)
 
-    log_filename = log_folder + '\\' + timestamp + '.log'
+    if os.name == 'nt':
+        log_filename = log_folder + '\\' + timestamp + '.log'
+    else:
+        log_filename = log_folder + '/' + timestamp + '.log'
+
     logging.basicConfig(filename=log_filename, format='%(asctime)s %(levelname)-8s %(message)s', level=logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
 
 def get_path_drop_file_name(full_path: str):
-    return full_path[:str(full_path).rfind('\\')]
+    if os.name == 'nt': # Windows
+        return full_path[:str(full_path).rfind('\\')]
+    else:
+        return full_path[:str(full_path).rfind('/')]
 
 
 def get_similar_folder_path(folder_path: str):
     return os.path.join(get_path_drop_file_name(folder_path), 'similar')
 
 def get_file_name_from_path(full_path: str):
-    return full_path[str(full_path).rfind('\\')+1:]
+    if os.name == 'nt':  # Windows
+        return full_path[str(full_path).rfind('\\')+1:]
+    else:
+        return full_path[str(full_path).rfind('/')+1:]
 
 def compare_list_to_dict(worker_id, file_list, image_hash_dict):
     for filename_0 in file_list:
